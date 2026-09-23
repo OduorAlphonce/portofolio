@@ -28,46 +28,64 @@ const {
 } = Astro.props;
 ---
 
-<article class="reveal rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
-  <div class="flex flex-wrap items-baseline justify-between gap-2">
-    <h3 class="text-lg font-semibold text-[var(--color-text)]">{title}</h3>
-    <span class="text-xs text-[var(--color-text-muted)]">{meta}</span>
-  </div>
+<div class="reveal">
+  <article
+    class:list={[
+      'rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8',
+      demoUrl && 'rounded-b-none',
+    ]}
+  >
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h3 class="text-lg font-semibold text-[var(--color-text)]">{title}</h3>
+      <span class="text-xs text-[var(--color-text-muted)]">{meta}</span>
+    </div>
 
-  <p class="mt-3 text-[var(--color-text)]">{summary}</p>
-  <p class="mt-3 text-[var(--color-text-muted)]">{hardPart}</p>
-  {extra && <p class="mt-3 text-[var(--color-text-muted)]">{extra}</p>}
+    <p class="mt-3 text-[var(--color-text)]">{summary}</p>
+    <p class="mt-3 text-[var(--color-text-muted)]">{hardPart}</p>
+    {extra && <p class="mt-3 text-[var(--color-text-muted)]">{extra}</p>}
 
-  <div class="mt-5 flex flex-wrap items-center gap-3">
-    {brandTech.map((name) => (
-      <span class="inline-flex items-center justify-center rounded-md border border-[var(--color-border)] p-1.5" title={name}>
-        <Icon name={name} class="h-4 w-4 text-[var(--color-text-muted)]" />
-      </span>
-    ))}
-    {textTech.map((tag) => (
-      <span class="rounded-md border border-[var(--color-border)] px-2 py-1 text-xs text-[var(--color-text-muted)]">
-        {tag}
-      </span>
-    ))}
-  </div>
+    <div class="mt-5 flex flex-wrap items-center gap-3">
+      {brandTech.map((name) => (
+        <span class="inline-flex items-center justify-center p-1" title={name}>
+          <Icon name={name} class="h-5 w-5" brandColor={name === 'go' || name === 'typescript'} />
+        </span>
+      ))}
+      {textTech.map((tag) => (
+        <span class="rounded-md border border-[var(--color-border)] px-2 py-1 text-xs text-[var(--color-text-muted)]">
+          {tag}
+        </span>
+      ))}
+    </div>
 
-  <div class="mt-5 flex flex-wrap items-center gap-4 text-sm">
-    {codeUrl && (
-      <a href={codeUrl} class="inline-flex items-center gap-1.5 text-[var(--color-text)] hover:text-[var(--color-accent)]" aria-label={`View ${title} codebase on GitHub`}>
-        <Icon name="github" class="h-4 w-4" />
-        Code
-      </a>
-    )}
-    {demoUrl && (
-      <a href={demoUrl} class="text-[var(--color-text)] hover:text-[var(--color-accent)]">
-        Live demo →
-      </a>
-    )}
-    {codeNote && !codeUrl && (
-      <span class="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]">
-        <Icon name="github" class="h-4 w-4" />
-        {codeNote}
-      </span>
-    )}
-  </div>
-</article>
+    <div class="mt-5 flex flex-wrap items-center gap-4 text-sm">
+      {codeUrl && (
+        <a
+          href={codeUrl}
+          class="inline-flex items-center gap-1.5 text-[var(--color-text)] hover:text-[var(--color-accent)]"
+          aria-label={`View ${title} codebase on GitHub`}
+        >
+          <Icon name="github" class="h-4 w-4" />
+          Code
+        </a>
+      )}
+      {codeNote && !codeUrl && (
+        <span class="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]">
+          <Icon name="github" class="h-4 w-4" />
+          {codeNote}
+        </span>
+      )}
+    </div>
+  </article>
+
+  {demoUrl && (
+    <a
+      href={demoUrl}
+      class="-mt-px flex items-center justify-center gap-2 rounded-b-2xl border border-t-0 border-[var(--color-border)] bg-[var(--color-bg)] py-3 text-sm font-medium text-[var(--color-accent)] transition-colors hover:bg-[var(--color-surface)]"
+    >
+      View live demo
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5">
+        <path d="M5 12h14M13 5l7 7-7 7"></path>
+      </svg>
+    </a>
+  )}
+</div>
