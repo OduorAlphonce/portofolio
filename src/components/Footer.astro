@@ -1,0 +1,34 @@
+---
+// TODO: replace with your real profile URLs and drop your résumé PDF at
+// /public/resume.pdf (the link below already points there).
+const socials = [
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/your-handle' },
+  { label: 'GitHub', url: 'https://github.com/your-handle' },
+  { label: 'Dev.to', url: 'https://dev.to/oyungapala' },
+  { label: 'X', url: 'https://x.com/your-handle' },
+];
+---
+
+<footer class="border-t border-[var(--color-border)]">
+  <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 py-10 text-sm sm:flex-row sm:justify-between">
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      {socials.map((s) => (
+        <a
+          href={s.url}
+          class="text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text)]"
+        >
+          {s.label}
+        </a>
+      ))}
+    </div>
+    <a
+      href="/resume.pdf"
+      class="text-[var(--color-text-muted)] underline decoration-[var(--color-border)] underline-offset-4 transition-colors hover:text-[var(--color-text)]"
+    >
+      Download résumé
+    </a>
+  </div>
+  <p class="pb-8 text-center text-xs text-[var(--color-text-muted)]">
+    © {new Date().getFullYear()} Alphonce Oyunga
+  </p>
+</footer>

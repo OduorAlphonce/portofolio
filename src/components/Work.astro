@@ -1,0 +1,37 @@
+---
+import ProjectCard from './ProjectCard.astro';
+
+// TODO: fill in real URLs once confirmed. Leave undefined to hide the link
+// rather than ship a dead one.
+const SMART_INVESTOR_CODE_URL = undefined; // e.g. 'https://github.com/...'
+const SMART_INVESTOR_DEMO_URL = undefined; // e.g. 'https://smartinvestor.vercel.app'
+---
+
+<section id="work" class="reveal mx-auto max-w-3xl px-6 py-16">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">Work</h2>
+
+  <div class="mt-6 space-y-6">
+    <ProjectCard
+      title="Smart Investor"
+      meta="Personal · Fullstack"
+      summary="An AI-powered pricing assistant for small businesses, built around a Go backend and custom pricing engine."
+      hardPart="The hardest part was the pricing logic itself: translating unit costs, target margins, and competitor prices into a single recommendation that balances profitability with market positioning. I built the pricing and risk engines in Go, exposed them through a REST API, and integrated an LLM to explain the reasoning behind each recommendation."
+      extra="Output: a recommended price, a viable price range, profit scenarios, a risk assessment, and an AI-generated explanation."
+      brandTech={['go', 'nextdotjs', 'typescript']}
+      textTech={['REST API', 'Pricing Engine', 'Risk Analysis', 'LLM Integration']}
+      codeUrl={SMART_INVESTOR_CODE_URL}
+      demoUrl={SMART_INVESTOR_DEMO_URL}
+    />
+
+    <ProjectCard
+      title="Secure API Authentication"
+      meta="Reki · Team project"
+      summary="Designed and built the full auth layer for a Go API — registration, sign-in, sessions, and the /me endpoint."
+      hardPart="The hard part: making it resistant to real attacks, not just working. CSRF protection via double-submit cookies, session rotation with sliding/absolute expiration, per-IP rate limiting, and account-enumeration resistance — a login failure never leaks whether an email exists."
+      extra="Also added structured-log redaction so credentials and tokens never hit logs, and documented the decisions in an ADR."
+      brandTech={['go']}
+      textTech={['REST API', 'bcrypt', 'HTTP Sessions', 'CSRF', 'Rate Limiting']}
+      codeNote="Team project — code available on request"
+    />
+  </div>
+</section>

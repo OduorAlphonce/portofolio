@@ -1,0 +1,27 @@
+---
+// TODO: replace with your 3 latest Dev.to posts (title + link each).
+const posts = [
+  { title: 'Post title one', url: 'https://dev.to/oyungapala' },
+  { title: 'Post title two', url: 'https://dev.to/oyungapala' },
+  { title: 'Post title three', url: 'https://dev.to/oyungapala' },
+];
+---
+
+<section id="articles" class="reveal mx-auto max-w-3xl px-6 py-16">
+  <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
+    Latest writing
+  </h2>
+  <ul class="mt-6 divide-y divide-[var(--color-border)]">
+    {posts.map((post) => (
+      <li>
+        <a
+          href={post.url}
+          class="flex items-center justify-between py-4 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent)]"
+        >
+          <span>{post.title}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

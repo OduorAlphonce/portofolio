@@ -1,0 +1,73 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  meta: string;
+  summary: string;
+  hardPart: string;
+  extra?: string;
+  brandTech: Array<keyof typeof import('../icons-data.json')>;
+  textTech: string[];
+  codeUrl?: string;
+  demoUrl?: string;
+  codeNote?: string;
+}
+
+const {
+  title,
+  meta,
+  summary,
+  hardPart,
+  extra,
+  brandTech,
+  textTech,
+  codeUrl,
+  demoUrl,
+  codeNote,
+} = Astro.props;
+---
+
+<article class="reveal rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8">
+  <div class="flex flex-wrap items-baseline justify-between gap-2">
+    <h3 class="text-lg font-semibold text-[var(--color-text)]">{title}</h3>
+    <span class="text-xs text-[var(--color-text-muted)]">{meta}</span>
+  </div>
+
+  <p class="mt-3 text-[var(--color-text)]">{summary}</p>
+  <p class="mt-3 text-[var(--color-text-muted)]">{hardPart}</p>
+  {extra && <p class="mt-3 text-[var(--color-text-muted)]">{extra}</p>}
+
+  <div class="mt-5 flex flex-wrap items-center gap-3">
+    {brandTech.map((name) => (
+      <span class="inline-flex items-center justify-center rounded-md border border-[var(--color-border)] p-1.5" title={name}>
+        <Icon name={name} class="h-4 w-4 text-[var(--color-text-muted)]" />
+      </span>
+    ))}
+    {textTech.map((tag) => (
+      <span class="rounded-md border border-[var(--color-border)] px-2 py-1 text-xs text-[var(--color-text-muted)]">
+        {tag}
+      </span>
+    ))}
+  </div>
+
+  <div class="mt-5 flex flex-wrap items-center gap-4 text-sm">
+    {codeUrl && (
+      <a href={codeUrl} class="inline-flex items-center gap-1.5 text-[var(--color-text)] hover:text-[var(--color-accent)]" aria-label={`View ${title} codebase on GitHub`}>
+        <Icon name="github" class="h-4 w-4" />
+        Code
+      </a>
+    )}
+    {demoUrl && (
+      <a href={demoUrl} class="text-[var(--color-text)] hover:text-[var(--color-accent)]">
+        Live demo →
+      </a>
+    )}
+    {codeNote && !codeUrl && (
+      <span class="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]">
+        <Icon name="github" class="h-4 w-4" />
+        {codeNote}
+      </span>
+    )}
+  </div>
+</article>
