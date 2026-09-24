@@ -1,10 +1,35 @@
 ---
-// TODO: replace with your 3 latest Dev.to posts (title + link each).
-const posts = [
-  { title: 'Post title one', url: 'https://dev.to/oyungapala' },
-  { title: 'Post title two', url: 'https://dev.to/oyungapala' },
-  { title: 'Post title three', url: 'https://dev.to/oyungapala' },
+// Fetches your latest Dev.to posts at build time via Dev.to's public API.
+// Set DEVTO_USERNAME to your real handle. If the fetch fails (offline build,
+// API hiccup, wrong username), falls back to the static list below so the
+// page never breaks — swap those placeholders for real posts as a backup.
+const DEVTO_USERNAME = 'oyungapala'; // TODO: confirm this is your real Dev.to handle
+
+type Post = { title: string; url: string; readable_publish_date: string };
+
+let posts: Post[] = [
+  { title: 'Post title one', url: 'https://dev.to/' + DEVTO_USERNAME, readable_publish_date: '' },
+  { title: 'Post title two', url: 'https://dev.to/' + DEVTO_USERNAME, readable_publish_date: '' },
+  { title: 'Post title three', url: 'https://dev.to/' + DEVTO_USERNAME, readable_publish_date: '' },
 ];
+
+try {
+  const res = await fetch(
+    `https://dev.to/api/articles?username=${DEVTO_USERNAME}&per_page=3`
+  );
+  if (res.ok) {
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      posts = data.map((p: any) => ({
+        title: p.title,
+        url: p.url,
+        readable_publish_date: p.readable_publish_date,
+      }));
+    }
+  }
+} catch {
+  // network unavailable at build time — keep placeholders above
+}
 ---
 
 <section id="articles" class="reveal mx-auto max-w-3xl px-6 py-16">
@@ -16,10 +41,13 @@ const posts = [
       <li>
         <a
           href={post.url}
-          class="flex items-center justify-between py-4 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent)]"
+          class="flex items-center justify-between gap-4 py-4 text-[var(--color-text)] transition-colors hover:text-[var(--color-accent)]"
         >
           <span>{post.title}</span>
-          <span aria-hidden="true">→</span>
+          <span class="flex shrink-0 items-center gap-3 text-xs text-[var(--color-text-muted)]">
+            {post.readable_publish_date && <span>{post.readable_publish_date}</span>}
+            <span aria-hidden="true">→</span>
+          </span>
         </a>
       </li>
     ))}
