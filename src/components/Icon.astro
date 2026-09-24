@@ -4,10 +4,12 @@ import icons from '../icons-data.json';
 interface Props {
   name: keyof typeof icons;
   class?: string;
+  brandColor?: boolean;
 }
 
-const { name, class: className = 'h-4 w-4' } = Astro.props;
+const { name, class: className = 'h-4 w-4', brandColor = false } = Astro.props;
 const icon = icons[name];
+const style = brandColor ? `color: ${icon.hex}` : undefined;
 ---
 
 <svg
@@ -16,6 +18,8 @@ const icon = icons[name];
   viewBox="0 0 24 24"
   fill="currentColor"
   class={className}
+  style={style}
 >
   <path d={icon.path}></path>
 </svg>
+         
