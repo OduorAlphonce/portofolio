@@ -28,10 +28,11 @@ const {
 } = Astro.props;
 ---
 
-<div class="reveal">
+<div class="reveal group transition-all duration-200 ease-out hover:-translate-y-1">
   <article
     class:list={[
-      'rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 sm:p-8',
+      'rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm transition-shadow duration-200 ease-out sm:p-8',
+      'group-hover:border-[var(--color-accent)]/40 group-hover:shadow-lg',
       demoUrl && 'rounded-b-none',
     ]}
   >
@@ -80,7 +81,11 @@ const {
   {demoUrl && (
     <a
       href={demoUrl}
-      class="-mt-px flex items-center justify-center gap-2 rounded-b-2xl border border-t-0 border-[var(--color-border)] bg-[var(--color-bg)] py-3 text-sm font-medium text-[var(--color-accent)] transition-colors hover:bg-[var(--color-surface)]"
+      class:list={[
+        '-mt-px flex items-center justify-center gap-2 rounded-b-2xl border border-t-0 border-[var(--color-border)]',
+        'bg-[var(--color-bg)] py-3 text-sm font-medium text-[var(--color-accent)] transition-colors',
+        'hover:bg-[var(--color-surface)] group-hover:border-[var(--color-accent)]/40',
+      ]}
     >
       View live demo
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-3.5 w-3.5">
