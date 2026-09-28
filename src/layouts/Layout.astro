@@ -20,20 +20,53 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
-
-    <!-- Inline theme init: runs before paint, no flash of wrong theme -->
-    <script is:inline>
-      (function () {
-        const stored = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = stored || (prefersDark ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
   </head>
   <body class="min-h-screen antialiased">
+    <canvas id="matrix-bg" aria-hidden="true"></canvas>
     <slot />
+
+    <script is:inline>
+      (function () {
+        var canvas = document.getElementById('matrix-bg');
+        if (!canvas) return;
+
+        // Respect reduced-motion: leave a static, empty canvas — no animation.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var ctx = canvas.getContext('2d');
+        var fontSize = 15;
+        var chars = 'アイウエオカキクケコサシスセソ01';
+        var columns, drops;
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          columns = Math.floor(canvas.width / fontSize);
+          drops = new Array(columns).fill(0).map(function () {
+            return Math.floor((Math.random() * canvas.height) / fontSize);
+          });
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function draw() {
+          ctx.fillStyle = 'rgba(10, 14, 10, 0.08)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#00e676';
+          ctx.font = fontSize + 'px monospace';
+          for (var i = 0; i < drops.length; i++) {
+            var char = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+            drops[i]++;
+          }
+        }
+
+        // Slow, ambient — not a flashy 60fps effect.
+        setInterval(draw, 60);
+      })();
+    </script>
   </body>
 </html>
